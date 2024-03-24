@@ -1,0 +1,5 @@
+= turbo_stream.append_all "#chats", @chat
+= turbo_stream.update :title do
+  = render 'home/title', title: @chat.title
+= turbo_stream.update :messages do
+  = render 'home/messages', chat: @chat

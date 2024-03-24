@@ -1,0 +1,21 @@
+- url = chat.nil? ? create_message_chats_path : messages_path(chat)
+- model = chat.nil? ? Chat.new : Message.new
+- model.messages.new if chat.nil?
+
+- if chat.present?
+  = turbo_stream_from dom_id(chat)
+  .px-4.sm:px-6.lg:px-8.text-gray-800
+    .flex.flex-col.items-center.space-y-2.mb-2
+      = render chat.messages unless chat.nil?
+
+    .px-4.lg:px-8
+      = form_with model: model, url: url, method: :post, class: 'flex justify-center items-center space-x-3' do |f|
+        - if chat.nil?
+          = f.fields_for :messages do |ff|
+            = ff.text_field :content, placeholder: 'Message ChatGPT...', class: 'w-full rounded-xl border border-gray-400'
+        - else
+          = f.text_field :content, placeholder: 'Message ChatGPT...', class: 'w-full rounded-xl border border-gray-400'
+        
+        = f.button '', class: 'rounded-xl border border-gray-400 py-2 px-2' do
+          %svg{width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", class: "text-gray-400 dark:text-black"}
+            %path{d: "M7 11L12 6L17 11M12 18V7", stroke: "currentColor", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round"}

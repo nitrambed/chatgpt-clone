@@ -1,0 +1,8 @@
+- content_for :chats do
+  %nav#chats.flex.flex-col.flex-1
+    = render Chat.all
+- content_for :title do
+  = render 'title', title: nil
+- content_for :messages do
+  = turbo_frame_tag :messages do
+    = render 'messages', chat: nil
